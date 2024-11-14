@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
+    // The Lists contain many lists, each list has a title and contains many items which are the todos.
     lists: [],
     activeListId: null
   },
