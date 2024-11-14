@@ -40,6 +40,17 @@ export default createStore({
     
     SET_ACTIVE_LIST(state, listId) {
       state.activeListId = listId;
+    },
+
+    DELETE_LIST(state, listId) {
+        const index = state.lists.findIndex(list => list.id === listId);
+        if (index !== -1) {
+          state.lists.splice(index, 1);
+          // If we deleted the active list, set activeListId to null or the next available list
+          if (state.activeListId === listId) {
+            state.activeListId = state.lists.length > 0 ? state.lists[0].id : null;
+          }
+        }
     }
   },
   

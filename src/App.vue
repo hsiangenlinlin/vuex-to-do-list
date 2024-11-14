@@ -25,8 +25,10 @@ export default {
 
 .sidebar {
   width: 250px;
+  min-width: 250px;
   border-right: 1px solid #ddd;
   padding: 20px;
+  overflow-y: auto;
 }
 
 .list-item {
@@ -34,13 +36,12 @@ export default {
   cursor: pointer;
 }
 
-.list-item.active {
-  background-color: #909844;
-}
+
 
 .todo-list {
   flex: 1;
   padding: 20px;
+  overflow-y: auto;
 }
 
 .header {
