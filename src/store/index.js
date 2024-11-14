@@ -2,60 +2,75 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    // The Lists contain many lists, each list has a title and contains many items which are the todos.
+    // Each list has: { id, title, items[] }
+    // items contains: { id, text, completed }
     lists: [],
-    activeListId: null
+
+    // Used to track which list is currently selected
+    activeListId: null,
   },
-  
+
   mutations: {
+    // Creates a new list with given title
     ADD_LIST(state, title) {
       const newList = {
         id: Date.now(),
         title,
-        items: []
-      };
-      state.lists.push(newList);
+        items: [], // Empty array to store todos
+      }
+      state.lists.push(newList) // Add new list to arrays of lists
     },
-    
+
+    // Adds a new todo item to a specific list
     ADD_TODO(state, { listId, text }) {
-      const list = state.lists.find(list => list.id === listId);
+      // Find the list where we want to add the todo
+      const list = state.lists.find((list) => list.id === listId)
       if (list) {
+        // Add new todo to the list's items array
         list.items.push({
           id: Date.now(),
           text,
-          completed: false
-        });
+          completed: false, // Initial completion status
+        })
       }
-    },
-    
-    TOGGLE_TODO(state, { listId, todoId }) {
-      const list = state.lists.find(list => list.id === listId);
-      if (list) {
-        const todo = list.items.find(todo => todo.id === todoId);
-        if (todo) {
-          todo.completed = !todo.completed;
-        }
-      }
-    },
-    
-    SET_ACTIVE_LIST(state, listId) {
-      state.activeListId = listId;
     },
 
-    DELETE_LIST(state, listId) {
-        const index = state.lists.findIndex(list => list.id === listId);
-        if (index !== -1) {
-          state.lists.splice(index, 1);
-          // If we deleted the active list, set activeListId to null or the next available list
-          if (state.activeListId === listId) {
-            state.activeListId = state.lists.length > 0 ? state.lists[0].id : null;
-          }
+    // Toggles the completed status of a specific todo
+    TOGGLE_TODO(state, { listId, todoId }) {
+      // Find the list containing the todo
+      const list = state.lists.find((list) => list.id === listId)
+      if (list) {
+        // Find the specific todo item
+        const todo = list.items.find((todo) => todo.id === todoId)
+        if (todo) {
+          // Toggle the completed status
+          todo.completed = !todo.completed
         }
-    }
+      }
+    },
+
+    // Updates which list is currently active/selected
+    SET_ACTIVE_LIST(state, listId) {
+      state.activeListId = listId
+    },
+
+    // Deletes a specific list
+    DELETE_LIST(state, listId) {
+      // Find the index of the list to delete
+      const index = state.lists.findIndex((list) => list.id === listId)
+      // If the index is found
+      if (index !== -1) {
+        // Remove the list from the array
+        state.lists.splice(index, 1)
+      }
+    },
   },
-  
+
   getters: {
-    getLists: state => state.lists,
-    getActiveList: state => state.lists.find(list => list.id === state.activeListId)
-  }
+    // Returns all lists
+    getLists: (state) => state.lists,
+
+    // Returns the currently active list
+    getActiveList: (state) => state.lists.find((list) => list.id === state.activeListId),
+  },
 })

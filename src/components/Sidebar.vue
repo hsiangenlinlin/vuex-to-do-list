@@ -63,7 +63,7 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 180px; /* Adjust this value based on your needs */
+  max-width: 180px;
 }
 
 .delete-btn {
