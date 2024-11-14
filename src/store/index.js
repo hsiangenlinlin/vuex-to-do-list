@@ -19,6 +19,9 @@ export default createStore({
         items: [], // Empty array to store todos
       }
       state.lists.push(newList) // Add new list to arrays of lists
+
+      // After the new list created, automatically select it
+      state.activeListId = newList.id
     },
 
     // Adds a new todo item to a specific list
